@@ -2,21 +2,24 @@ class ForEachArrayListIterator {
     [Symbol.iterator]() {
         const self = this;
         let i = 0;
-        let last = this.list.length;
 
         return {
             next() {
-                const result = {
-                    value: self.list[i],
-                    done: i === last
-                };
-                i += 1;
-                return result;
+                let value, done = true;
+                if (self.list[i] !== undefined) {
+                    value = self.list[i];
+                    done = false;
+                    i += 1;
+                }
+
+                return {
+                    value: value,
+                    done: done
+                }
             }
         };
     }
 }
-
 
 module.exports = class ArrayList extends ForEachArrayListIterator {
     constructor() {
